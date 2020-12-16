@@ -47,6 +47,14 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
+void MainWindow::openFile(const QString &path)
+{
+    if (!askForSave())
+        return;
+    if (!path.isEmpty())
+        chart->open(path);
+}
+
 void MainWindow::closeEvent(QCloseEvent *event)
 {
     if (!askForSave())
