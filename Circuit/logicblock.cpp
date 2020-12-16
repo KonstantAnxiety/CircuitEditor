@@ -19,11 +19,11 @@ void LogicBlock::draw(QGraphicsScene *scene)
     QPolygonF box = QPolygonF(points);
     box = t.map(box);
     if (hovered())
-        scene->addPolygon(box, QPen(Qt::blue, 2, Qt::DotLine))->setZValue(15);
-    scene->addPolygon(box, QPen(Qt::black, 3), QBrush(Qt::white))->setZValue(4);
+        scene->addPolygon(box, QPen(Qt::blue, 4, Qt::DotLine))->setZValue(15);
+    scene->addPolygon(box, QPen(Qt::black, 5), QBrush(Qt::white))->setZValue(4);
 
     QGraphicsTextItem *io = new QGraphicsTextItem;
-    io->setFont(QFont("Courier New", 16, -1, 1));
+    io->setFont(QFont("Courier New", 26, -1, 1));
     io->setPlainText(getText());
     QPointF c = QPointF(ex() - w()/2,
                         ey());

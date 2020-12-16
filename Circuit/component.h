@@ -2,13 +2,14 @@
 #define COMPONENT_H
 
 #include <QGraphicsScene>
+#include <QDebug>
 
 class Component
 {
 public:
     Component();
-    Component(double ex, double ey, double r=0, double w=0, double h=0)
-        : m_ex{ex}, m_ey{ey}, m_r{r}, m_w{w}, m_h{h} { };
+    Component(double ex, double ey, double r=0, double w=0, double h=0, QString s="NONE")
+        : m_ex{ex}, m_ey{ey}, m_r{r}, m_w{w}, m_h{h}, m_text(s) { };
     ~Component() = default;
     double ex() const { return m_ex; };
     double ey() const { return m_ey; };
@@ -25,6 +26,7 @@ public:
     virtual void draw(QGraphicsScene *scene) = 0;
     virtual void setText(const QString &text) { m_text = text; };
     virtual const QString &getText() const { return m_text; };
+    virtual int id() const { return 0; };
     virtual bool hover(double x, double y) const { // ROTATION
         QTransform t;
         t.translate(ex(), ey());
@@ -43,6 +45,28 @@ public:
     virtual void write(std::ostream& out) const {
         out << "C " << ex() << " " << ey() << " "
             << r() << " " <<  w() << " " << h();
+    }
+
+    virtual void writeBinary(std::ostream& out) const {
+        out.write((char*)&m_ex, sizeof(double));
+        out.write((char*)&m_ey, sizeof(double));
+        out.write((char*)&m_r, sizeof(double));
+        out.write((char*)&m_w, sizeof(double));
+        out.write((char*)&m_h, sizeof(double));
+        std::string s = m_text.toStdString();
+        out << s << '\n';
+    }
+
+    virtual void readBinary(std::istream& out) {
+
+        out.read((char*)&m_ex, sizeof(double));
+        out.read((char*)&m_ey, sizeof(double));
+        out.read((char*)&m_r, sizeof(double));
+        out.read((char*)&m_w, sizeof(double));
+        out.read((char*)&m_h, sizeof(double));
+        std::string s;
+        getline(out, s);
+        m_text = QString::fromStdString(s);
     }
 
 private:

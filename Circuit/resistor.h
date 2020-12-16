@@ -11,6 +11,7 @@ public:
         : SerialComponent(ex, ey, r, w, h) { };
     ~Resistor() = default;
     virtual void draw(QGraphicsScene *scene) override;
+    virtual int id() const override { return 11; };
 
     virtual void write(std::ostream& out) const override{
         out << "11 " << ex() << " " << ey() << " "

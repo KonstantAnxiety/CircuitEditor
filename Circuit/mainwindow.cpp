@@ -80,7 +80,7 @@ void MainWindow::openCircuit()
         return;
     path = QFileDialog::getOpenFileName(this, "Open circuit",
                                         QCoreApplication::applicationDirPath(),
-                                        "text file (*.txt)" );
+                                        "Circuit file (*.circ)" );
     if (!path.isEmpty())
         chart->open(path);
 }
@@ -110,7 +110,7 @@ void MainWindow::saveCircuitAs()
 {
     path = QFileDialog::getSaveFileName(this, "Save circuit",
                                         QCoreApplication::applicationDirPath(),
-                                        "text file (*.txt)" );
+                                        "Circuit file (*.circ)" );
     if (!path.isEmpty())
         chart->saveAs(path);
 }
@@ -131,7 +131,7 @@ void MainWindow::createActions()
 
     openAct = new QAction(tr("&Open..."), this);
     openAct->setShortcut(QKeySequence::Open);
-    openAct->setStatusTip(tr("Save circuit to a file"));
+    openAct->setStatusTip(tr("Open circuit from a file"));
     connect(openAct, &QAction::triggered, this, &MainWindow::openCircuit);
 
     exportAct = new QAction(tr("&Export..."), this);

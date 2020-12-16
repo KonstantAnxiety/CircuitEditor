@@ -11,6 +11,7 @@ public:
         : Component(ex, ey, r, w, h) { };
     ~TwoInputGate() = default;
     virtual void draw(QGraphicsScene *scene) override;
+    virtual int id() const override { return 0; };
 
     virtual void write(std::ostream& out) const override{
         out << "G " << ex() << " " << ey() << " "

@@ -11,6 +11,7 @@ public:
         : EndComponent(ex, ey, r, w, h) { };
     ~NetLabel() = default;
     virtual void draw(QGraphicsScene *scene) override;
+    virtual int id() const override { return 4; };
 
     virtual void write(std::ostream& out) const override{
         out << "4 " << ex() << " " << ey() << " "

@@ -25,8 +25,8 @@ void SerialComponent::draw(QGraphicsScene *scene)
         points.push_back(QPoint(ex(), ey()-h()/2));
         QPolygonF border = QPolygonF(points);
         border = t.map(border);
-        scene->addPolygon(border, QPen(Qt::blue, 2, Qt::DotLine))->setZValue(5);
+        scene->addPolygon(border, QPen(Qt::blue, 4, Qt::DotLine))->setZValue(5);
     }
-    scene->addLine(input, QPen(Qt::black, 3))->setZValue(5);
-    scene->addLine(output, QPen(Qt::black, 3))->setZValue(5);
+    scene->addLine(input, QPen(Qt::black, 5))->setZValue(5);
+    scene->addLine(output, QPen(Qt::black, 5))->setZValue(5);
 }

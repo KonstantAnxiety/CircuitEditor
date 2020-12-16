@@ -117,33 +117,41 @@ void GraphicsView::save()
 
 void GraphicsView::saveAs(QString path)
 {
-    std::ofstream file(path.toStdString());
-    file << components.getSize() << '\n';
-    for (size_t i = 0; i < components.getSize(); ++i) {
-        components[i].get()->write(file);
-        file << "\n";
+    std::ofstream fout(path.toStdString());
+    int n = (components.getSize());
+    fout.write((char*)&n, sizeof(int));
+    for (int i = 0; i < n; ++i) {
+        int id = components[i]->id();
+        fout.write((char*)&id, sizeof(int));
+        components[i]->writeBinary(fout);
     }
-    file << wires->childItems().size() << '\n';
+
+    n = wires->childItems().size();
+    fout.write((char*)&n, sizeof(int));
     foreach(QGraphicsItem *item, scene->items()) {
         if (item->group() == wires) {
             QGraphicsLineItem *line = dynamic_cast<QGraphicsLineItem*>(item);
             QLineF l = line->line();
-            file << l.p1().x() << ' ' <<
-                    l.p1().y() << ' ' <<
-                    l.p2().x() << ' ' <<
-                    l.p2().y() << '\n';
+            double d;
+            d = l.p1().x(); fout.write((char*)&d, sizeof(double));
+            d = l.p1().y(); fout.write((char*)&d, sizeof(double));
+            d = l.p2().x(); fout.write((char*)&d, sizeof(double));
+            d = l.p2().y(); fout.write((char*)&d, sizeof(double));
         }
     }
-    file << connections->childItems().size() << '\n';
+    n = connections->childItems().size();
+    fout.write((char*)&n, sizeof(int));
     foreach(QGraphicsItem *item, scene->items()) {
         if (item->group() == connections) {
             QGraphicsEllipseItem *ellipse = dynamic_cast<QGraphicsEllipseItem*>(item);
             double x = ellipse->rect().x();
             double y = ellipse->rect().y();
-            file << x << ' ' << y << '\n';
+            fout.write((char*)&x, sizeof(double));
+            fout.write((char*)&y, sizeof(double));
         }
     }
-    file.close();
+    fout.close();
+
     this->path = path;
     saved = true;
     emit savedStateChanged();
@@ -151,82 +159,73 @@ void GraphicsView::saveAs(QString path)
 
 void GraphicsView::open(QString path)
 {
-    std::ifstream file(path.toStdString());
-    this->path = path;
-    std::shared_ptr<Component> t;
-    size_t n;
-    int id;
-    double x, y, r, w, h;
-    std::string qq;
     components.clear();
-    foreach(QGraphicsItem *item, scene->items()) {
-        if (item->group() == connections || item->group() == wires) {
-            delete item;
-        }
-    }
-
-    file >> n;
-    for (size_t i = 0; i < n; ++i) {
-        file >> id >> x >> y >> r >> w >> h;
+    std::ifstream fin(path.toStdString());
+    std::shared_ptr<Component> t;
+    int n;
+    fin.read((char*)&n, sizeof(int));
+    for (int i = 0; i < n; ++i) {
+        int id;
+        fin.read((char*)&id, sizeof(int));
         switch (id){
         case 3:
-            t = std::shared_ptr<Component>(new GND(x, y, r, w, h));
+            t = std::shared_ptr<Component>(new GND());
             break;
         case 4:
-            t = std::shared_ptr<Component>(new NetLabel(x, y, r, w, h));
-            std::getline(file, qq);
-            qq = qq.substr(1, qq.size()-1);
-            t->setText(QString::fromStdString(qq));
+            t = std::shared_ptr<Component>(new NetLabel());
             break;
         case 5:
-            t = std::shared_ptr<Component>(new TwoInputAndGate(x, y, r, w, h));
+            t = std::shared_ptr<Component>(new TwoInputAndGate());
             break;
         case 6:
-            t = std::shared_ptr<Component>(new TwoInputNandGate(x, y, r, w, h));
+            t = std::shared_ptr<Component>(new TwoInputNandGate());
             break;
         case 7:
-            t = std::shared_ptr<Component>(new TwoInputOrGate(x, y, r, w, h));
+            t = std::shared_ptr<Component>(new TwoInputOrGate());
             break;
         case 8:
-            t = std::shared_ptr<Component>(new TwoInputNorGate(x, y, r, w, h));
+            t = std::shared_ptr<Component>(new TwoInputNorGate());
             break;
         case 9:
-            t = std::shared_ptr<Component>(new NotGate(x, y, r, w, h));
+            t = std::shared_ptr<Component>(new NotGate());
             break;
         case 10:
-            t = std::shared_ptr<Component>(new TwoInputXorGate(x, y, r, w, h));
+            t = std::shared_ptr<Component>(new TwoInputXorGate());
             break;
         case 11:
-            t = std::shared_ptr<Component>(new Resistor(x, y, r, w, h));
+            t = std::shared_ptr<Component>(new Resistor());
             break;
         case 12:
-            t = std::shared_ptr<Component>(new Capacitor(x, y, r, w, h));
+            t = std::shared_ptr<Component>(new Capacitor());
             break;
         case 13:
-            t = std::shared_ptr<Component>(new LogicBlock(x, y, r, w, h));
-            std::getline(file, qq);
-            qq = qq.substr(1, qq.size()-1);
-            t->setText(QString::fromStdString(qq));
+            t = std::shared_ptr<Component>(new LogicBlock());
             break;
         }
+        t->readBinary(fin);
         components.push_back(t);
+        t.reset();
     }
-
-    file >> n;
+    fin.read((char*)&n, sizeof(int));
     double x1, x2, y1, y2;
-    for (size_t i = 0; i < n; ++i) {
-        file >> x1 >> y1 >> x2 >> y2;
+    for (int i = 0; i < n; ++i) {
+        fin.read((char*)&x1, sizeof(double));
+        fin.read((char*)&y1, sizeof(double));
+        fin.read((char*)&x2, sizeof(double));
+        fin.read((char*)&y2, sizeof(double));
         wires->addToGroup(scene->addLine(x1, y1, x2, y2, QPen(Qt::black, 3)));
     }
 
-    file >> n;
-    for (size_t i = 0; i < n; ++i) {
-        file >> x1 >> y1;
+    fin.read((char*)&n, sizeof(int));
+    for (int i = 0; i < n; ++i) {
+        fin.read((char*)&x1, sizeof(double));
+        fin.read((char*)&y1, sizeof(double));
         connections->addToGroup(scene->addEllipse(x1, y1,
                        6, 6, QPen(Qt::black, 3), QBrush(Qt::black)));
     }
 
-    file.close();
+    fin.close();
+    this->path = path;
     saved = true;
     emit savedStateChanged();
 }
@@ -467,7 +466,8 @@ void GraphicsView::slotAlarmTimer()
         components[i].get()->draw(scene);
     }
     if ((nodeToAdd > 2 && nodeToAdd < 13) || nowMoving > -1) {
-        tmp->draw(scene);
+        if (tmp.get())
+            tmp->draw(scene);
     }
 }
 

@@ -12,7 +12,7 @@ void NetLabel::draw(QGraphicsScene *scene)
 {
     EndComponent::draw(scene);
     QGraphicsTextItem *io = new QGraphicsTextItem;
-    io->setFont(QFont("Courier New", 12));
+    io->setFont(QFont("Courier New", 18));
     io->setPlainText(getText());
     if (io->boundingRect().width() > w())
         setW(round((io->boundingRect().width()+25)/25)*25);

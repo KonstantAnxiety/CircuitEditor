@@ -11,6 +11,7 @@ public:
         : SerialComponent(ex, ey, r, w, h) { };
     ~Capacitor() = default;
     virtual void draw(QGraphicsScene *scene) override;
+    virtual int id() const override { return 12; };
 
     virtual void write(std::ostream& out) const override{
         out << "12 " << ex() << " " << ey() << " "

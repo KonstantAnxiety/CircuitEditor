@@ -25,5 +25,5 @@ void Resistor::draw(QGraphicsScene *scene)
     QTransform t;
     t.translate(ex(), ey()); t.rotate(r()); t.translate(-ex(), -ey());
     p = QPainterPath(t.map(p));
-    scene->addPath(p, QPen(Qt::black, 3))->setZValue(6);
+    scene->addPath(p, QPen(Qt::black, 5))->setZValue(6);
 }

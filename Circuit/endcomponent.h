@@ -11,6 +11,7 @@ public:
         : Component(ex, ey, r, w, h) { };
     ~EndComponent() = default;
     virtual void draw(QGraphicsScene *scene) override;
+    virtual int id() const override { return 0; };
     virtual bool hover(double x, double y) const override{
         QTransform t;
         t.translate(ex(), ey()); t.rotate(r()); t.translate(-ex(), -ey());

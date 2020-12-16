@@ -11,6 +11,7 @@ public:
         : SerialComponent(ex, ey, r, w, h) { };
     ~NotGate() = default;
     virtual void draw(QGraphicsScene *scene) override;
+    virtual int id() const override { return 9; };
 
     virtual void write(std::ostream& out) const override{
         out << "9 " << ex() << " " << ey() << " "
