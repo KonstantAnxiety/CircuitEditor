@@ -23,7 +23,7 @@
    <enum>Qt::NoFocus</enum>
   </property>
   <property name="windowTitle">
-   <string>MainWindow</string>
+   <string>Cirtuit Editor</string>
   </property>
   <widget class="QWidget" name="centralwidget">
    <property name="mouseTracking">
