@@ -1,6 +1,7 @@
 #include <QScrollBar>
 #include <QMouseEvent>
 #include <QGraphicsTextItem>
+#include <QtSvg/QSvgGenerator>
 #include "graphicsview.h"
 #include <QDebug>
 #include <QTimer>
@@ -401,6 +402,7 @@ void GraphicsView::mouseReleaseEvent(QMouseEvent *event)
                 saved = false;
                 emit savedStateChanged();
             }
+            _line = false;
             nodeToAdd = 0;
         } else {
             components[nowMoving].get()->setPos(lastPoint.x(), lastPoint.y());
@@ -489,6 +491,56 @@ void GraphicsView::removeGrid()
         if (item->group() == grid)
             delete item;
     }
+}
+
+void GraphicsView::saveToSvg(const QString &path)
+{
+    QRectF newSceneRect;
+    foreach(QGraphicsItem* item, scene->items()) {
+        if (item != grid && item->group() != grid && item != wires &&
+                item != connections) {
+            newSceneRect |= item->mapToScene(item->boundingRect()).boundingRect();
+        }
+    }
+    QRectF oldSceneRect = scene->sceneRect();
+    scene->setSceneRect(newSceneRect);
+    QSize sceneSize = newSceneRect.size().toSize();
+
+    QSvgGenerator generator;
+    generator.setFileName(path);
+    generator.setSize(sceneSize);
+    generator.setViewBox(QRect(0, 0, sceneSize.width(), sceneSize.height()));
+    generator.setDescription(QObject::tr("Circuit"));
+    generator.setTitle(path);
+    QPainter painter;
+    painter.begin(&generator);
+    removeGrid();
+    scene->render(&painter);
+    painter.end();
+    scene->setSceneRect(oldSceneRect);
+    addGrid();
+}
+
+void GraphicsView::saveToImage(const QString &path)
+{
+    QRectF newSceneRect;
+    foreach(QGraphicsItem* item, scene->items()) {
+        if (item != grid && item->group() != grid && item != wires &&
+                item != connections) {
+            newSceneRect |= item->mapToScene(item->boundingRect()).boundingRect();
+        }
+    }
+    QRectF oldSceneRect = scene->sceneRect();
+    scene->setSceneRect(newSceneRect);
+    removeGrid();
+    QImage image(newSceneRect.size().toSize(), QImage::Format_ARGB32);
+    image.fill(Qt::white);
+    QPainter painter(&image);
+    painter.setRenderHint(QPainter::Antialiasing);
+    scene->render(&painter);
+    image.save(path);
+    scene->setSceneRect(oldSceneRect);
+    addGrid();
 }
 
 void GraphicsView::snapToGrid(QPointF *pt, double step) const

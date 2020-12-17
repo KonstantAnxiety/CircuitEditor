@@ -63,66 +63,10 @@
     <layout class="QVBoxLayout" name="verticalLayout_2">
      <item>
       <layout class="QGridLayout" name="gridLayout_3">
-       <item row="0" column="1">
-        <widget class="QPushButton" name="addConnectionBtn">
-         <property name="text">
-          <string>Connection</string>
-         </property>
-        </widget>
-       </item>
-       <item row="4" column="0">
-        <widget class="QPushButton" name="addNotBtn">
-         <property name="text">
-          <string>Not gate</string>
-         </property>
-        </widget>
-       </item>
-       <item row="0" column="0">
-        <widget class="QPushButton" name="addWireBtn">
-         <property name="text">
-          <string>Wire</string>
-         </property>
-        </widget>
-       </item>
-       <item row="3" column="0">
-        <widget class="QPushButton" name="addOrBtn">
-         <property name="text">
-          <string>Or gate</string>
-         </property>
-        </widget>
-       </item>
-       <item row="1" column="0">
-        <widget class="QPushButton" name="addGNDBtn">
-         <property name="text">
-          <string>GND</string>
-         </property>
-        </widget>
-       </item>
        <item row="5" column="1">
         <widget class="QPushButton" name="addCapacitorBtn">
          <property name="text">
           <string>Capacitor</string>
-         </property>
-        </widget>
-       </item>
-       <item row="5" column="0">
-        <widget class="QPushButton" name="addResistorBtn">
-         <property name="text">
-          <string>Resistor</string>
-         </property>
-        </widget>
-       </item>
-       <item row="4" column="1">
-        <widget class="QPushButton" name="addXorBtn">
-         <property name="text">
-          <string>Xor gate</string>
-         </property>
-        </widget>
-       </item>
-       <item row="3" column="1">
-        <widget class="QPushButton" name="addNorBtn">
-         <property name="text">
-          <string>Nor gate</string>
          </property>
         </widget>
        </item>
@@ -133,10 +77,66 @@
          </property>
         </widget>
        </item>
+       <item row="1" column="1">
+        <widget class="QPushButton" name="addNetBtn">
+         <property name="text">
+          <string>Net</string>
+         </property>
+        </widget>
+       </item>
+       <item row="1" column="0">
+        <widget class="QPushButton" name="addGNDBtn">
+         <property name="text">
+          <string>GND</string>
+         </property>
+        </widget>
+       </item>
        <item row="2" column="0">
         <widget class="QPushButton" name="addAndBtn">
          <property name="text">
           <string>And gate</string>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="0">
+        <widget class="QPushButton" name="addWireBtn">
+         <property name="text">
+          <string>Wire</string>
+         </property>
+        </widget>
+       </item>
+       <item row="4" column="0">
+        <widget class="QPushButton" name="addNotBtn">
+         <property name="text">
+          <string>Not gate</string>
+         </property>
+        </widget>
+       </item>
+       <item row="3" column="0">
+        <widget class="QPushButton" name="addOrBtn">
+         <property name="text">
+          <string>Or gate</string>
+         </property>
+        </widget>
+       </item>
+       <item row="4" column="1">
+        <widget class="QPushButton" name="addXorBtn">
+         <property name="text">
+          <string>Xor gate</string>
+         </property>
+        </widget>
+       </item>
+       <item row="0" column="1">
+        <widget class="QPushButton" name="addConnectionBtn">
+         <property name="text">
+          <string>Connection</string>
+         </property>
+        </widget>
+       </item>
+       <item row="5" column="0">
+        <widget class="QPushButton" name="addResistorBtn">
+         <property name="text">
+          <string>Resistor</string>
          </property>
         </widget>
        </item>
@@ -147,10 +147,10 @@
          </property>
         </widget>
        </item>
-       <item row="1" column="1">
-        <widget class="QPushButton" name="addNetBtn">
+       <item row="3" column="1">
+        <widget class="QPushButton" name="addNorBtn">
          <property name="text">
-          <string>Net</string>
+          <string>Nor gate</string>
          </property>
         </widget>
        </item>

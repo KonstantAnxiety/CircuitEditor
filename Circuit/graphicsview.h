@@ -36,6 +36,8 @@ public:
     bool isSaved() const { return saved; };
     void addGrid();
     void removeGrid();
+    void saveToSvg(const QString &path);
+    void saveToImage(const QString &path);
     void addLabel(const QString &str, double x, double y,
                   const QColor &color = Qt::black, double scale = 1,
                   int align = 0, int valign = 0);

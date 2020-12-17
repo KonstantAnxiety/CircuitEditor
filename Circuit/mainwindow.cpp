@@ -4,6 +4,7 @@
 #include <QCloseEvent>
 #include <QFileDialog>
 #include <QMessageBox>
+#include <QtSvg/QSvgGenerator>
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -44,6 +45,13 @@ MainWindow::~MainWindow()
 {
     delete chart;
     delete savedLabel;
+    //delete actionLabel;
+    delete fileMenu;
+    delete newAct;
+    delete exportAct;
+    delete openAct;
+    delete saveAct;
+    delete saveAsAct;
     delete ui;
 }
 
@@ -95,15 +103,15 @@ void MainWindow::openCircuit()
 
 void MainWindow::exportCircuit()
 {
-    QString fileName = QFileDialog::getSaveFileName(this, "Save image",
+    QString path = QFileDialog::getSaveFileName(this, "Save image",
                                                     QCoreApplication::applicationDirPath(),
-                                                    "BMP Files (*.bmp);;JPEG (*.JPEG);;PNG (*.png)" );
-    if (!fileName.isEmpty()) {
-        chart->removeGrid();
-        QPixmap pixMap = chart->grab();
-        pixMap.save(fileName);
-        chart->addGrid();
-    }
+                                                    "BMP Files (*.bmp);;JPEG (*.JPEG);;PNG (*.png);;SVG (*.svg)" );
+    if (path.isEmpty())
+        return;
+    if (*(path.end()-2) == 'v')
+        chart->saveToSvg(path);
+    else
+        chart->saveToImage(path);
 }
 
 void MainWindow::saveCircuit()
