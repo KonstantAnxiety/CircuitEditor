@@ -21,6 +21,8 @@
 #include "textdialog.h"
 #include "vector.h"
 
+typedef std::shared_ptr<Component> pComponent;
+
 class GraphicsView: public QGraphicsView
 {
     Q_OBJECT
@@ -53,7 +55,7 @@ private slots:
 private:
     QTimer *timer;
     QGraphicsScene *scene;
-    Vector<std::shared_ptr<Component>> components;
+    Vector<pComponent> components;
     QGraphicsItemGroup *grid;
     QGraphicsItemGroup *wires;
     QGraphicsItemGroup *connections;
@@ -62,7 +64,7 @@ private:
     QString path;
     QPoint lastPoint;
     int _panStartX, _panStartY;
-    std::shared_ptr<Component> tmp;
+    pComponent tmp;
 
     void snapToGrid(QPointF *pt, double step = 25) const;
     int hoveredNode(QMouseEvent *event) const;

@@ -74,34 +74,34 @@ void GraphicsView::addNode(int id)
         tmp.reset();
         switch (nodeToAdd) {
         case 3:
-            tmp = std::shared_ptr<Component>(new GND(0, 0, 0, 50, 50));
+            tmp = pComponent(new GND(0, 0, 0, 50, 50));
             break;
         case 4:
-            tmp = std::shared_ptr<Component>(new NetLabel(0, 0, 0, 100, 50));
+            tmp = pComponent(new NetLabel(0, 0, 0, 100, 50));
             break;
         case 5:
-            tmp = std::shared_ptr<Component>(new TwoInputAndGate(0, 0, 0));
+            tmp = pComponent(new TwoInputAndGate(0, 0, 0));
             break;
         case 6:
-            tmp = std::shared_ptr<Component>(new TwoInputNandGate(0, 0, 0));
+            tmp = pComponent(new TwoInputNandGate(0, 0, 0));
             break;
         case 7:
-            tmp = std::shared_ptr<Component>(new TwoInputOrGate(0, 0, 0));
+            tmp = pComponent(new TwoInputOrGate(0, 0, 0));
             break;
         case 8:
-            tmp = std::shared_ptr<Component>(new TwoInputNorGate(0, 0, 0));
+            tmp = pComponent(new TwoInputNorGate(0, 0, 0));
             break;
         case 9:
-            tmp = std::shared_ptr<Component>(new NotGate(0, 0, 0));
+            tmp = pComponent(new NotGate(0, 0, 0));
             break;
         case 10:
-            tmp = std::shared_ptr<Component>(new TwoInputXorGate(0, 0, 0));
+            tmp = pComponent(new TwoInputXorGate(0, 0, 0));
             break;
         case 11:
-            tmp = std::shared_ptr<Component>(new Resistor(0, 0, 0, 150, 50));
+            tmp = pComponent(new Resistor(0, 0, 0, 150, 50));
             break;
         case 12:
-            tmp = std::shared_ptr<Component>(new Capacitor(0, 0, 0, 150, 50));
+            tmp = pComponent(new Capacitor(0, 0, 0, 150, 50));
             break;
         }
     }
@@ -162,7 +162,7 @@ void GraphicsView::open(QString path)
 {
     components.clear();
     std::ifstream fin(path.toStdString());
-    std::shared_ptr<Component> t;
+    pComponent t;
     int n;
     fin.read((char*)&n, sizeof(int));
     for (int i = 0; i < n; ++i) {
@@ -170,37 +170,37 @@ void GraphicsView::open(QString path)
         fin.read((char*)&id, sizeof(int));
         switch (id){
         case 3:
-            t = std::shared_ptr<Component>(new GND());
+            t = pComponent(new GND());
             break;
         case 4:
-            t = std::shared_ptr<Component>(new NetLabel());
+            t = pComponent(new NetLabel());
             break;
         case 5:
-            t = std::shared_ptr<Component>(new TwoInputAndGate());
+            t = pComponent(new TwoInputAndGate());
             break;
         case 6:
-            t = std::shared_ptr<Component>(new TwoInputNandGate());
+            t = pComponent(new TwoInputNandGate());
             break;
         case 7:
-            t = std::shared_ptr<Component>(new TwoInputOrGate());
+            t = pComponent(new TwoInputOrGate());
             break;
         case 8:
-            t = std::shared_ptr<Component>(new TwoInputNorGate());
+            t = pComponent(new TwoInputNorGate());
             break;
         case 9:
-            t = std::shared_ptr<Component>(new NotGate());
+            t = pComponent(new NotGate());
             break;
         case 10:
-            t = std::shared_ptr<Component>(new TwoInputXorGate());
+            t = pComponent(new TwoInputXorGate());
             break;
         case 11:
-            t = std::shared_ptr<Component>(new Resistor());
+            t = pComponent(new Resistor());
             break;
         case 12:
-            t = std::shared_ptr<Component>(new Capacitor());
+            t = pComponent(new Capacitor());
             break;
         case 13:
-            t = std::shared_ptr<Component>(new LogicBlock());
+            t = pComponent(new LogicBlock());
             break;
         }
         t->readBinary(fin);
@@ -277,7 +277,7 @@ void GraphicsView::mousePressEvent(QMouseEvent *event)
 
 void GraphicsView::mouseReleaseEvent(QMouseEvent *event)
 {
-    std::shared_ptr<Component> t;
+    pComponent t;
     TextDialog td;
     QPointF pt = mapToScene(event->pos());
     snapToGrid(&pt);
@@ -351,7 +351,7 @@ void GraphicsView::mouseReleaseEvent(QMouseEvent *event)
                            ex = newPoint.x(),
                            ey = newPoint.y() - h/2;
                     if (w > 5 && h > 5) {
-                        tmp = std::shared_ptr<Component>(new LogicBlock(ex, ey, 0, w, h));
+                        tmp = pComponent(new LogicBlock(ex, ey, 0, w, h));
                         if (td.exec() == QDialog::Accepted) {
                             QString text;
                             text = td.getText();
