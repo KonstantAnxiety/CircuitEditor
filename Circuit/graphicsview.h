@@ -20,6 +20,7 @@
 #include "capacitor.h"
 #include "textdialog.h"
 #include "vector.h"
+#include "vector.cpp"
 
 typedef std::shared_ptr<Component> pComponent;
 
@@ -29,22 +30,20 @@ class GraphicsView: public QGraphicsView
 public:
     GraphicsView(QWidget *parent);
     ~GraphicsView();
-    void createNewChart();
-    void addNode(int id);
-    void save();
-    void saveAs(QString path);
-    void open(QString path);
-    const QString &getPath() const { return this->path; };
+    const QString &getPath() const { return path; };
     bool isSaved() const { return saved; };
-    void addGrid();
-    void removeGrid();
+    void createNewChart();
+    void save();
     void saveToSvg(const QString &path);
     void saveToImage(const QString &path);
-    void addLabel(const QString &str, double x, double y,
-                  const QColor &color = Qt::black, double scale = 1,
-                  int align = 0, int valign = 0);
-                  // -1:0:1 = left:center:right = top:middle:bottom
-    void rotate() { if (tmp.get()) tmp.get()->rotate(); };
+    void saveAsBinary(const QString &path);
+    void saveAsTxt(const QString &path);
+    void openBinary(const QString &path);
+    void openTxt(const QString &path);
+    void addNode(int id);
+    void addGrid();
+    void removeGrid();
+    void rotate();
 
 signals:
     void savedStateChanged();
@@ -60,14 +59,18 @@ private:
     QGraphicsItemGroup *wires;
     QGraphicsItemGroup *connections;
     int nodeToAdd, nowMoving, lineDir;
-    bool _pan, _line, saved;
+    int panStartX, panStartY;
+    bool pan, line, saved;
     QString path;
     QPoint lastPoint;
-    int _panStartX, _panStartY;
     pComponent tmp;
 
-    void snapToGrid(QPointF *pt, double step = 25) const;
+    pComponent defaultComponentFactory(int id);
+    pComponent componentFactory(int id, double x=0, double y=0,
+                                double r=0, double w=0, double h=0);
     int hoveredNode(QMouseEvent *event) const;
+    void snapToGrid(QPointF *pt, double step = 25) const;
+
     virtual void mouseDoubleClickEvent(QMouseEvent *event) override;
     virtual void mouseMoveEvent(QMouseEvent *event) override;
     virtual void mousePressEvent(QMouseEvent *event) override;

@@ -2,11 +2,6 @@
 
 #include <QGraphicsItem>
 
-NotGate::NotGate()
-{
-
-}
-
 void NotGate::draw(QGraphicsScene *scene)
 {
     SerialComponent::draw(scene);

@@ -2,11 +2,6 @@
 
 #include <QGraphicsItem>
 
-Resistor::Resistor()
-{
-
-}
-
 void Resistor::draw(QGraphicsScene *scene)
 {
     SerialComponent::draw(scene);

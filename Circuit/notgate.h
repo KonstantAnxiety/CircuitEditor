@@ -6,17 +6,12 @@
 class NotGate: public SerialComponent
 {
 public:
-    NotGate();
+    NotGate(): SerialComponent() { setW(150); setH(100); };
     NotGate(double ex, double ey, double r=0, double w=150, double h=100)
         : SerialComponent(ex, ey, r, w, h) { };
     ~NotGate() = default;
     virtual void draw(QGraphicsScene *scene) override;
     virtual int id() const override { return 9; };
-
-    virtual void write(std::ostream& out) const override{
-        out << "9 " << ex() << " " << ey() << " "
-            << r() << " " <<  w() << " " << h();
-    }
 
     friend std::ostream& operator<<(std::ostream& out, const NotGate &c)
     {

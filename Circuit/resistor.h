@@ -6,17 +6,12 @@
 class Resistor: public SerialComponent
 {
 public:
-    Resistor();
+    Resistor(): SerialComponent() { setW(150); setH(50); };
     Resistor(double ex, double ey, double r=0, double w=150, double h=100)
         : SerialComponent(ex, ey, r, w, h) { };
     ~Resistor() = default;
     virtual void draw(QGraphicsScene *scene) override;
     virtual int id() const override { return 11; };
-
-    virtual void write(std::ostream& out) const override{
-        out << "11 " << ex() << " " << ey() << " "
-            << r() << " " <<  w() << " " << h();
-    }
 
     friend std::ostream& operator<<(std::ostream& out, const Resistor &c)
     {

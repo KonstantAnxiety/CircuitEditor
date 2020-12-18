@@ -2,11 +2,6 @@
 
 #include <QGraphicsItem>
 
-GND::GND()
-{
-
-}
-
 void GND::draw(QGraphicsScene *scene)
 {
     EndComponent::draw(scene);

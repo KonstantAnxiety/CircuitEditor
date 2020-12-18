@@ -2,11 +2,6 @@
 
 #include <QGraphicsItem>
 
-TwoInputOrGate::TwoInputOrGate()
-{
-
-}
-
 void TwoInputOrGate::draw(QGraphicsScene *scene)
 {
     TwoInputGate::draw(scene);

@@ -2,11 +2,6 @@
 
 #include <QGraphicsItem>
 
-TwoInputGate::TwoInputGate()
-{
-
-}
-
 void TwoInputGate::draw(QGraphicsScene *scene)
 {
     QLineF input1 = QLineF(ex()-w(), ey()-h()/4, ex()-w()/7*4, ey()-h()/4);

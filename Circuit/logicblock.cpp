@@ -2,11 +2,6 @@
 
 #include <QGraphicsItem>
 
-LogicBlock::LogicBlock()
-{
-
-}
-
 void LogicBlock::draw(QGraphicsScene *scene)
 {
     QTransform t;

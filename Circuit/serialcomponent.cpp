@@ -2,11 +2,6 @@
 
 #include <QGraphicsItem>
 
-SerialComponent::SerialComponent()
-{
-
-}
-
 void SerialComponent::draw(QGraphicsScene *scene)
 {
     QLineF input = QLineF(ex()-w(), ey(), ex()-w()/6*4, ey());

@@ -2,11 +2,6 @@
 
 #include <QGraphicsItem>
 
-Capacitor::Capacitor()
-{
-
-}
-
 void Capacitor::draw(QGraphicsScene *scene)
 {
     SerialComponent::draw(scene);

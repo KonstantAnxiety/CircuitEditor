@@ -57,10 +57,12 @@ MainWindow::~MainWindow()
 
 void MainWindow::openFile(const QString &path)
 {
-    if (!askForSave())
-        return;
-    if (!path.isEmpty())
-        chart->open(path);
+    if (!path.isEmpty()) {
+        if (*(path.end()-1) == 't')
+            chart->openTxt(path);
+        else
+            chart->openBinary(path);
+    }
 }
 
 void MainWindow::closeEvent(QCloseEvent *event)
@@ -96,16 +98,20 @@ void MainWindow::openCircuit()
         return;
     path = QFileDialog::getOpenFileName(this, "Open circuit",
                                         QCoreApplication::applicationDirPath(),
-                                        "Circuit file (*.circ)" );
-    if (!path.isEmpty())
-        chart->open(path);
+                                        "Circuit file (*.circ);;Text file (*.txt)" );
+    if (!path.isEmpty()) {
+        if (*(path.end()-1) == 't')
+            chart->openTxt(path);
+        else
+            chart->openBinary(path);
+    }
 }
 
 void MainWindow::exportCircuit()
 {
     QString path = QFileDialog::getSaveFileName(this, "Save image",
-                                                    QCoreApplication::applicationDirPath(),
-                                                    "BMP Files (*.bmp);;JPEG (*.JPEG);;PNG (*.png);;SVG (*.svg)" );
+                                                QCoreApplication::applicationDirPath(),
+                                                "BMP Files (*.bmp);;JPEG (*.JPEG);;PNG (*.png);;SVG (*.svg)" );
     if (path.isEmpty())
         return;
     if (*(path.end()-2) == 'v')
@@ -126,9 +132,13 @@ void MainWindow::saveCircuitAs()
 {
     path = QFileDialog::getSaveFileName(this, "Save circuit",
                                         QCoreApplication::applicationDirPath(),
-                                        "Circuit file (*.circ)" );
-    if (!path.isEmpty())
-        chart->saveAs(path);
+                                        "Circuit file (*.circ);;Text file (*.txt)" );
+    if (!path.isEmpty()) {
+        if (*(path.end()-1) == 't')
+            chart->saveAsTxt(path);
+        else
+            chart->saveAsBinary(path);
+    }
 }
 
 void MainWindow::exit()

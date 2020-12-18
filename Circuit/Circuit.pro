@@ -31,7 +31,8 @@ SOURCES += \
     twoinputnandgate.cpp \
     twoinputnorgate.cpp \
     twoinputorgate.cpp \
-    twoinputxorgate.cpp
+    twoinputxorgate.cpp \
+    vector.cpp
 
 HEADERS += \
     capacitor.h \

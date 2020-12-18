@@ -6,17 +6,12 @@
 class Capacitor: public SerialComponent
 {
 public:
-    Capacitor();
-    Capacitor(double ex, double ey, double r=0, double w=150, double h=100)
+    Capacitor(): SerialComponent() { setW(150); setH(50); };
+    Capacitor(double ex, double ey, double r=0, double w=150, double h=50)
         : SerialComponent(ex, ey, r, w, h) { };
     ~Capacitor() = default;
     virtual void draw(QGraphicsScene *scene) override;
     virtual int id() const override { return 12; };
-
-    virtual void write(std::ostream& out) const override{
-        out << "12 " << ex() << " " << ey() << " "
-            << r() << " " <<  w() << " " << h();
-    }
 
     friend std::ostream& operator<<(std::ostream& out, const Capacitor &c)
     {

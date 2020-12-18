@@ -6,17 +6,12 @@
 class TwoInputOrGate: public TwoInputGate
 {
 public:
-    TwoInputOrGate();
+    TwoInputOrGate(): TwoInputGate() { };
     TwoInputOrGate(double ex, double ey, double r=0, double w=175, double h=100)
         : TwoInputGate(ex, ey, r, w, h) { };
     ~TwoInputOrGate() = default;
     virtual void draw(QGraphicsScene *scene) override;
     virtual int id() const override { return 7; };
-
-    virtual void write(std::ostream& out) const override{
-        out << "7 " << ex() << " " << ey() << " "
-            << r() << " " <<  w() << " " << h();
-    }
 
     friend std::ostream& operator<<(std::ostream& out, const TwoInputOrGate &c)
     {

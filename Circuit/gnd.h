@@ -6,17 +6,12 @@
 class GND: public EndComponent
 {
 public:
-    GND();
-    GND(double ex, double ey, double r=0, double w=150, double h=100)
+    GND() { setW(50); setH(50); };
+    GND(double ex, double ey, double r=0, double w=50, double h=50)
         : EndComponent(ex, ey, r, w, h) { };
     ~GND() = default;
     virtual void draw(QGraphicsScene *scene) override;
     virtual int id() const override { return 3; };
-
-    virtual void write(std::ostream& out) const override{
-        out << "3 " << ex() << " " << ey() << " "
-            << r() << " " <<  w() << " " << h();
-    }
 
     friend std::ostream& operator<<(std::ostream& out, const GND &c)
     {

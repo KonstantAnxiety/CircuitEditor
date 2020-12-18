@@ -3,11 +3,6 @@
 #include <QGraphicsItem>
 #include <math.h>
 
-NetLabel::NetLabel()
-{
-
-}
-
 void NetLabel::draw(QGraphicsScene *scene)
 {
     EndComponent::draw(scene);

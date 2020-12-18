@@ -2,11 +2,6 @@
 
 #include <QGraphicsItem>
 
-TwoInputNorGate::TwoInputNorGate()
-{
-
-}
-
 void TwoInputNorGate::draw(QGraphicsScene *scene)
 {
     TwoInputGate::draw(scene);
