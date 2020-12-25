@@ -57,11 +57,19 @@ MainWindow::~MainWindow()
 
 void MainWindow::openFile(const QString &path)
 {
+    std::string strpath = path.toStdString();
+    std::string extension = strpath.substr(strpath.find_last_of(".") + 1);
     if (!path.isEmpty()) {
-        if (*(path.end()-1) == 't')
+        if(extension == "txt")
             chart->openTxt(path);
-        else
+        else if (extension == "circ")
             chart->openBinary(path);
+        else {
+            chart->createNewChart();
+            QMessageBox::warning(this, tr("Circuit"),
+                                       tr("Cannot open file"),
+                                       QMessageBox::Ok);
+        }
     }
 }
 
@@ -99,10 +107,12 @@ void MainWindow::openCircuit()
     path = QFileDialog::getOpenFileName(this, "Open circuit",
                                         QCoreApplication::applicationDirPath(),
                                         "Circuit file (*.circ);;Text file (*.txt)" );
+    std::string strpath = path.toStdString();
+    std::string extension = strpath.substr(strpath.find_last_of(".") + 1);
     if (!path.isEmpty()) {
-        if (*(path.end()-1) == 't')
+        if (extension == "txt")
             chart->openTxt(path);
-        else
+        else if (extension == "circ")
             chart->openBinary(path);
     }
 }
@@ -133,10 +143,12 @@ void MainWindow::saveCircuitAs()
     path = QFileDialog::getSaveFileName(this, "Save circuit",
                                         QCoreApplication::applicationDirPath(),
                                         "Circuit file (*.circ);;Text file (*.txt)" );
+    std::string strpath = path.toStdString();
+    std::string extension = strpath.substr(strpath.find_last_of(".") + 1);
     if (!path.isEmpty()) {
-        if (*(path.end()-1) == 't')
+        if (extension == "txt")
             chart->saveAsTxt(path);
-        else
+        else if (extension == "circ")
             chart->saveAsBinary(path);
     }
 }

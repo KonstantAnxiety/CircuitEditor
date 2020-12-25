@@ -150,10 +150,12 @@ pComponent GraphicsView::componentFactory(int id, double x, double y,
 
 void GraphicsView::save()
 {
+    std::string strpath = path.toStdString();
+    std::string extension = strpath.substr(strpath.find_last_of(".") + 1);
     if (!path.isEmpty()) {
-        if (*(path.end()-1) == 't')
+        if (extension == "txt")
             saveAsTxt(path);
-        else
+        else if (extension == "circ")
             saveAsBinary(path);
     }
 }
