@@ -31,8 +31,8 @@ public:
     virtual int id() const { return 0; };
     virtual bool hover(double x, double y) const;
     void write(std::ostream& out) const;
-    virtual void writeBinary(std::ostream& out) const;
-    virtual void readBinary(std::istream& out);
+    void writeBinary(std::ostream& out) const;
+    void readBinary(std::istream& out);
 
 private:
     double m_ex{0.0}, m_ey{0.0},
