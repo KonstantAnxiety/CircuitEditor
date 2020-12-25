@@ -16,8 +16,8 @@ public:
     double w() const { return m_w; };
     double h() const { return m_h; };
     double r() const { return m_r; };
-    const QString &getText() const { return m_text; };
     bool hovered() const { return m_hover; };
+    const QString &getText() const { return m_text; };
 
     void setHover(bool hov = false) { m_hover = hov; };
     void rotate() { m_r += 90; };
@@ -26,13 +26,13 @@ public:
     void setW(double w) { m_w = w; };
     void setH(double h) { m_h = h; };
     void setText(const QString &text) { m_text = text; };
+    void write(std::ostream& out) const;
+    void writeBinary(std::ostream& out) const;
+    void readBinary(std::istream& out);
 
     virtual void draw(QGraphicsScene *scene) = 0;
     virtual int id() const { return 0; };
     virtual bool hover(double x, double y) const;
-    void write(std::ostream& out) const;
-    void writeBinary(std::ostream& out) const;
-    void readBinary(std::istream& out);
 
 private:
     double m_ex{0.0}, m_ey{0.0},
