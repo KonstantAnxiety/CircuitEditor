@@ -14,8 +14,7 @@ public:
     virtual int id() const override { return 0; };
     virtual bool hover(double x, double y) const override;
 
-    friend std::ostream& operator<<(std::ostream& out, const EndComponent &c)
-    {
+    friend std::ostream& operator<<(std::ostream& out, const EndComponent &c) {
         c.write(out);
         return out;
     }

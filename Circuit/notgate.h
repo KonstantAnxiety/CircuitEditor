@@ -13,8 +13,7 @@ public:
     virtual void draw(QGraphicsScene *scene) override;
     virtual int id() const override { return 9; };
 
-    friend std::ostream& operator<<(std::ostream& out, const NotGate &c)
-    {
+    friend std::ostream& operator<<(std::ostream& out, const NotGate &c) {
         c.write(out);
         return out;
     }
